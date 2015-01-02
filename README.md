@@ -167,9 +167,10 @@ The prerequisites are the following:
 
 **Scala considerations**
 
-I have been lacking the time to implement a Scala version in a couple of hours but would like to give some code snippets and underlying concepts
+I have been lacking time to implement a Scala version in a couple of hours but would like to give some code snippets and underlying concepts
 
 A Regex
+
 Parse each question with a regex using the standard Scala package. We obtain a string with the full name of Tony Blair
 
 ```
@@ -224,6 +225,7 @@ val result = in.mkString                          //> result  : String = "<?xml 
 ```
 
 C Parse the response to extract the URI
+
 Best would be to use the scala XML package 
 ```
 import scala.xml.XML
@@ -254,11 +256,15 @@ println("URI of the person:"+my_uri_c)    //> URI of the person:http://dbpedia.o
 ```
 
 D We should then form a SparQL query
+
 The idea is to install a package such as scardf: https://code.google.com/p/scardf/ to query dbpedia easily
-The FROM part of the query will refer to the <http://dbpedia.org/resource/Tony_Blair> resource we have identified earlier
+The FROM part of the query will refer to the <http://dbpedia.org/resource/Tony_Blair> resource we have identified earlier. We are after the birthdate corresponding to : 
+```
+dbpedia-owl:birthDate	1953-05-06 (xsd:date)
+```
 In the same way as in Python, we will parse the result (Json for example) and present the result
 
-The second case with David Cameron is similar.
+The second case with David Cameron is similar...
 
 
 
