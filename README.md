@@ -39,10 +39,9 @@ _Question 1: "How old is Tony Blair?"_
 
 We specify a domain specific language related to birth date and referencing the correct property:
 
-```class BirthDateOf(FixedRelation):
-
+``` 
+class BirthDateOf(FixedRelation):
 relation = "dbpprop:birthDate"
-
 reverse = True
 ```
 
@@ -50,13 +49,9 @@ Then we define the question and the associated regular expression in a special w
 
 ```
 class HowOldIsQuestion(QuestionTemplate):
-
 regex = Pos("WRB") + Lemma("old") + Lemma("be") + Person() + Question(Pos("."))
-
 def interpret(self, match):
-
 birth\_date = BirthDateOf(match.person)
-
 return birth\_date, "age"
 ```
 
