@@ -1,6 +1,6 @@
 **DB Test - Comments from Denis Maurin**
 
-1. Approach to the problem
+**1. Approach to the problem**
 
 The goal is to ask 2 questions in natural language (English) and return the answers using dbpedia, a structured query frontend of Wikipedia supporting SparQL and RDF data.
 
@@ -10,19 +10,19 @@ _Question 2: "What is the birth place of David Cameron?"_
 
 In order to keep the complexity of the solution to a reasonable level, I assume that only these 2 questions are supported by the software and that other questions will have to be coded or defined manually.
 
-1. Parse the question using regular expressions
+1.1 Parse the question using regular expressions
 
 The goal is to identify the different parts of the sentence using regular expressions and a NLP framework.
 
-2. Identity recognition
+1.2 Identity recognition
 
 Once we can identify the words corresponding to a person (or a thing for ex), we can use DBpedia to return the page corresponding to this entry. We will then form a SparQL query to return the date of birth for example identified as a particular URI.
 
-3. Rendering of the result
+1.3 Rendering of the result
 
 The result of the SparQL query (JSON) is then converted into a simple string by retaining the English version only.
 
-Prototype code in Python (NLTK, Quepy)
+**2 Prototype code in Python (NLTK, Quepy)**
 
 NLTK and Quepy libraries provide a simple and elegant way to transform natural language to database queries. A similar approach may be implemented in Scala or Java but would take significantly longer and would fall outside the scope of this exercise.
 
@@ -33,7 +33,6 @@ NLTK [http://www.nltk.org](http://www.nltk.org): NLTK is one of the most preemin
 Quepy [http://quepy.rtfd.org](http://quepy.rtfd.org) : This library leverages NLTK to transform natural language questions to database queries. Quepy supports SparQL (and MQL). The demo application shipped with Quepy queries DBPedia already. Under the hood Quepy uses Refo to process regular expressions for object sequences (and not only strings).
 
 I have extended Quepy to implement the two questions of the test. As we will see later on, the Dbpedia ontology is loaded as well as the standard w3 owl, rdf syntax, foaf, etc.
-
 
 
 _Question 1: "How old is Tony Blair?"_
