@@ -51,8 +51,8 @@ Then we define the question and the associated regular expression in a special w
 class HowOldIsQuestion(QuestionTemplate):
 regex = Pos("WRB") + Lemma("old") + Lemma("be") + Person() + Question(Pos("."))
 def interpret(self, match):
-birth\_date = BirthDateOf(match.person)
-return birth\_date, "age"
+birth_date = BirthDateOf(match.person)
+return birth_date, "age"
 ```
 
 We can see how the regex is built. A lemmatiser will match the variants (inflicted forms) of the verb "to be" for example. Also a Person() object is defined earlier in the code as a regex based on standard speech tags (http://stackoverflow.com/questions/1833252/java-stanford-nlp-part-of-speech-labels):
@@ -81,13 +81,13 @@ SELECT DISTINCT ?x1 WHERE {
 Final stage is to parse the birth date and calculate the age. A simple utility function will do the job by parsing the JSON answer, extract the date, parse year, month, day and calculate the number of years to the present day.
 
 ```
-birth\_date = results["results"]["bindings"][0][target]["value"]
-bd2 = birth\_date.split("+")
+birth_date = results["results"]["bindings"][0][target]["value"]
+bd2 = birth_date.split("+")
 year, month, days = (bd2[0]).split("-")
-birth\_date = datetime.date(int(year), int(month), int(days))
+birth_date = datetime.date(int(year), int(month), int(days))
 now = datetime.datetime.utcnow()
 now = now.date()
-age = now - birth\_date
+age = now - birth_date
 print "{}".format(age.days / 365)
 ```
 
@@ -112,8 +112,8 @@ class WhatIsBirthPlace(QuestionTemplate):
 regex = Lemma("what")+ Lemma("be") + Question(Lemmas("the birth place of")) + Person() + \
 Question(Pos("."))
 def interpret(self, match):
-birth\_place = BirthPlaceOf(match.person)
-label = LabelOf(birth\_place)
+birth_place = BirthPlaceOf(match.person)
+label = LabelOf(birth_place)
 return label, "place"
 ```
 
@@ -141,7 +141,7 @@ SELECT DISTINCT ?x2 WHERE {
 }
 ```
 
-I have been lacking the time to apply some modifications to return the birthplace as a URI (x1 in the query) and to query DBpedia to resolve the country (dbpedia-owl:country returning dbpedia:United\_Kingdom with label United Kingdom). The result of the query is not exactly aligned with the expected value but close enough for the sake of this exercise:
+I have been lacking the time to apply some modifications to return the birthplace as a URI (x1 in the query) and to query DBpedia to resolve the country (dbpedia-owl:country returning dbpedia:United\_Kingdom with label United Kingdom). The result of the query is not exactly aligned with the expected value (England vs. United Kingdom) but close enough for the sake of this exercise:
 
 Response: London, England
 
