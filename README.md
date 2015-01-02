@@ -91,8 +91,9 @@ age = now - birth_date
 print "{}".format(age.days / 365)
 ```
 
-Result is: 61
-
+```
+Response is: 61
+```
 _Question 2: What is the birth place of David Cameron?"_
 
 A similar approach is used for this second question. 
