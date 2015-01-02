@@ -154,3 +154,14 @@ As well as variants captured by the second regex:
 "Where was Victor Hugo born?"
 
 Response: Besançon, French First Republic
+
+** Installation **
+
+The prerequisites are the following:
+- Numpy
+- Quepy: instructions are available there: http://quepy.readthedocs.org/en/latest/installation.html
+- NLTK, Refo, SparQLWrapper and other libraries will be installed automatically with pip when Quepy is setup
+
+
+
+
