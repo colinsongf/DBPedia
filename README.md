@@ -14,19 +14,19 @@ In order to keep the complexity of the solution to a reasonable level, I assume 
 
 The goal is to identify the different parts of the sentence using regular expressions and a NLP framework.
 
-1. Identity recognition
+2. Identity recognition
 
 Once we can identify the words corresponding to a person (or a thing for ex), we can use DBpedia to return the page corresponding to this entry. We will then form a SparQL query to return the date of birth for example identified as a particular URI.
 
-1. Rendering of the result
+3. Rendering of the result
 
 The result of the SparQL query (JSON) is then converted into a simple string by retaining the English version only.
 
-1. Prototype code in Python (NLTK, Quepy)
+Prototype code in Python (NLTK, Quepy)
 
 NLTK and Quepy libraries provide a simple and elegant way to transform natural language to database queries. A similar approach may be implemented in Scala or Java but would take significantly longer and would fall outside the scope of this exercise.
 
-The complete code is available in my Github repository.
+The complete code is available in my Github repository: https://github.com/denismaurin/DBPedia.git
 
 NLTK [http://www.nltk.org](http://www.nltk.org): NLTK is one of the most preeminent platform for Natural Language Processing (NLP) and incorporates a comprehensive suite of text processing libraries. For classification, tokenization, stemming, tagging, parsing, etc.
 
