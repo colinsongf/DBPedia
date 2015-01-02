@@ -143,25 +143,26 @@ SELECT DISTINCT ?x2 WHERE {
 
 I have been lacking the time to apply some modifications to return the birthplace as a URI (x1 in the query) and to query DBpedia to resolve the country (dbpedia-owl:country returning dbpedia:United\_Kingdom with label United Kingdom). The result of the query is not exactly aligned with the expected value (England vs. United Kingdom) but close enough for the sake of this exercise:
 
+```
 Response: London, England
-
+```
 Other questions could be matched successfully:
 "What was the birth place of Alexandre Dumas?"
-
+```
 Response: France, Villers-Cotterêts
-
+```
 As well as variants captured by the second regex:
 "Where was Victor Hugo born?"
-
+```
 Response: Besançon, French First Republic
-
-** Installation **
+```
+**Installation**
 
 The prerequisites are the following:
 - Numpy
 - Quepy: instructions are available there: http://quepy.readthedocs.org/en/latest/installation.html
 - NLTK, Refo, SparQLWrapper and other libraries will be installed automatically with pip when Quepy is setup
-
+s
 
 
 
