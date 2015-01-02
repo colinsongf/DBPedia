@@ -165,6 +165,105 @@ The prerequisites are the following:
 - Quepy: instructions are available there: http://quepy.readthedocs.org/en/latest/installation.html
 - NLTK, Refo, SparQLWrapper and other libraries will be installed automatically with pip when Quepy is setup
 
+**Scala considerations**
+
+I have been lacking the time to implement a Scala version in a couple of hours but would like to give some code snippets and underlying concepts
+
+A Regex
+Parse each question with a regex using the standard Scala package. We obtain a string with the full name of Tony Blair
+
+```
+import scala.util.matching.Regex
+// Enter the first question
+val q1 = "How old is Tony Blair"          //> q1  : String = How old is Tony Blair
+
+
+// First try some simple regex checking that we have a first name and a last name starting with a capital letter
+val pattern = new Regex("^How old is ([A-Z]{1}[a-z]+) ([A-Z]{1}[a-z]+)")
+//> pattern  : scala.util.matching.Regex = ^How old is ([A-Z]{1}[a-z]+) ([A-Z]{1
+//| }[a-z]+)
+var fullname:String = ""                  //> fullname  : String = ""
+
+// Check if we have matched the full name of a person according to the regex
+q1 match {
+case pattern(fn, ln) => fullname = fn+"_"+ln
+case _ => println("No match!")
+}
+
+println(fullname)                                //> Tony_Blair
+```
+
+B Invoke the dbpedia lookup service to retrieve the URI for the fullname
+```
+// Now let's disambiguate the full name using the dbpedia lookup service
+val murl:String = "http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString="+fullname
+//> murl  : String = http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?Que
+//| ryString=Tony_Blair
+
+val in = scala.io.Source.fromURL(murl, "utf-8")   //> in  : scala.io.BufferedSource = non-empty iterator
+val result = in.mkString                          //> result  : String = "<?xml version="1.0" encoding="utf-8"?>
+//| <ArrayOfResult 
+//| xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.
+//| w3.org/2001/XMLSchema" xmlns="http://lookup.dbpedia.org/">
+//|     <Result>
+//|         <Label>Tony Blair</Label>
+//|         <URI>http://dbpedia.org/resource/Tony_Blair</URI>
+//|         <Description>
+//|             Anthony Charles Lynton Blair (born 6 May 1953) is a British Labo
+//| ur Party politician who served as the Prime Minister of the United Kingdom f
+//| rom 2 May 1997 to 27 June 2007. He was the Member of Parliament (MP) for Sed
+//| gefield from 1983 to 2007 and Leader of the Labour Party from 1994 to 2007. 
+//| He resigned from all of these positions in June 2007. Blair was elected Lead
+//| er of the Labour Party in the leadership election of July 1994, following th
+//| e sudden death of his predecessor, John Smith.
+//|         </Description>
+//|         <Classes>
+//|             <Class>
+//|                 
+//| Output exceeds cutoff limit.
+```
+
+C Parse the response to extract the URI
+Best would be to use the scala XML package 
+```
+import scala.xml.XML
+val xml = XML.loadString(result)
+val theURI = xml \\ "@URI"
+```
+
+Alternatively we could use a new regex as it is a very simple case. Not the most efficient though
+```
+val line = "<URI>http://dbpedia.org/resource/Tony_Blair</URI>"
+//> line  : String = <URI>http://dbpedia.org/resource/Tony_Blair</URI>
+
+val pattern2 = new Regex("<URI>([^0-9]+)")//> pattern2  : scala.util.matching.Regex = <URI>([^0-9]+)
+
+var my_uri = ""                           //> my_uri  : String = ""
+line match {
+case pattern2(uri) =>
+my_uri = uri
+println(uri)
+case _ => println("No URI returned by dbpedia lookup service!")
+}                                                //> http://dbpedia.org/resource/Tony_Blair</URI>
+
+// Let's make sure we get rid of the trailing </URI>
+val my_uri_c = my_uri.replaceFirst("</URI>","")
+//> my_uri_c  : String = http://dbpedia.org/resource/Tony_Blair
+
+println("URI of the person:"+my_uri_c)    //> URI of the person:http://dbpedia.org/resource/Tony_Blair
+```
+
+D We should then form a SparQL query
+The idea is to install a package such as scardf: https://code.google.com/p/scardf/ to query dbpedia easily
+The FROM part of the query will refer to the <http://dbpedia.org/resource/Tony_Blair> resource we have identified earlier
+In the same way as in Python, we will parse the result (Json for example) and present the result
+
+The second case with David Cameron is similar.
+
+
+
+
+
 
 
 
