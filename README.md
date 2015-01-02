@@ -160,10 +160,11 @@ Response: Besançon, French First Republic
 **Installation**
 
 The prerequisites are the following:
+- Python interpreter (2.x or 3.x)
 - Numpy
 - Quepy: instructions are available there: http://quepy.readthedocs.org/en/latest/installation.html
 - NLTK, Refo, SparQLWrapper and other libraries will be installed automatically with pip when Quepy is setup
-s
+
 
 
 
